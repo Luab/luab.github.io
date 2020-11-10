@@ -75,12 +75,12 @@ social:
 analytics:
   provider               :  "google-universal" # false (default), "google", "google-universal", "custom"
   google:
-    tracking_id          :
+    tracking_id          :  G-PQQZ84QG9Q
 
 
 # Site Author
 author:
-  name             : "Your Sidebar Name"
+  name             : "Bulat Maksudov"
   avatar           : "profile.png"
   bio              : "23 y.o. Datascientist from Innopolis"
   location         : "Innopolis"
@@ -88,7 +88,7 @@ author:
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=i9MscjEAAAAJ&hl=ru"
   email            :
-  researchgate     :  "https://www.researchgate.net/profile/Bulat_Maksudov"
+  researchgate     : "https://www.researchgate.net/profile/Bulat_Maksudov"
   uri              :
   bitbucket        :
   codepen          :
