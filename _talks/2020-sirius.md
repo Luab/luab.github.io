@@ -8,7 +8,7 @@ date: 2020-09-12
 location: "Sochi, Russia (actually online)"
 ---
 
-Summer school for gifted students. [link](sochisirius.ru/obuchenie/graduates/smena662/3206).
+Summer school for gifted students. [link](https://sochisirius.ru/obuchenie/graduates/smena662/3206).
 
 Also same lectures and tasks were given during [Archipelag 20.35](https://2035.university/arkhipelag-20-35/)
 
