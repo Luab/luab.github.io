@@ -7,9 +7,9 @@ redirect_from:
   - /about/
   - /about.html
 ---
-Hi! I am a researcher at [AI Center Innopolis University](https://innopolis.university/center-ai3/). Currently working on Medical AI and it's application in hospitals. Looking for PhD opportunities. 
+Hi! I am PhD student from [ML-Labs](https://www.ml-labs.ie/) at DCU. Former researcher at [AI Center Innopolis University](https://innopolis.university/center-ai3/). Working on Explainable Medical AI and it's application in hospitals.  
 
 Contacts
 ======
-**Email**: b[dot]maksudov[at]innopolis[dot]ru
+**Email**: b[dot]maksudov[at]lua[dot]tatar
 **Telegram**: [@lua_b](t.me/lua_b)
