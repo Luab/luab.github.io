@@ -7,7 +7,7 @@ redirect_from:
   - /about/
   - /about.html
 ---
-Hi! I am PhD student from [ML-Labs](https://www.ml-labs.ie/) at DCU. Former researcher at [AI Center Innopolis University](https://innopolis.university/center-ai3/). Working on Explainable Medical AI and it's application in hospitals.  
+Hi! I am a PhD student at [ML-Labs](https://www.ml-labs.ie/) at DCU. Former researcher at [AI Center Innopolis University](https://innopolis.university/center-ai3/). Working on Explainable Medical AI, with a focus on counterfactual explanations and interpretable deep learning for medical imaging.
 
 Contacts
 ======
