@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ABRA: Agent Benchmark for Radiology Applications">
+  <meta name="description" content="ABRA is a radiology-agent benchmark: an LLM operates an OHIF viewer and Orthanc DICOM server through 21 function-calling tools across 655 tasks, scored along Planning, Execution, and Outcome.">
+  <meta name="keywords" content="agent benchmark, radiology, DICOM, OHIF, medical imaging, function calling, LLM agents, Planning Execution Outcome, BI-RADS, LIDC-IDRI, NLST, breast MRI">
+  <meta name="author" content="Bulat Maksudov, Vladislav Kurenkov, Kathleen M. Curran, Alessandra Mileo">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ABRA Benchmark">
+  <meta property="og:title" content="ABRA: Agent Benchmark for Radiology Applications">
+  <meta property="og:description" content="Putting an LLM agent inside a live radiology workstation: 21 tools, 655 tasks, oracle/real pairs that isolate perception from tool orchestration.">
+  <meta property="og:image" content="static/images/architecture.png">
+  <meta property="og:image:alt" content="ABRA system architecture: controller, OHIF viewer, Orthanc PACS, preprocessor, scorer.">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ABRA: Agent Benchmark for Radiology Applications">
+  <meta name="twitter:description" content="Putting an LLM agent inside a live radiology workstation: 21 tools, 655 tasks, oracle/real pairs that isolate perception from tool orchestration.">
+  <meta name="twitter:image" content="static/images/architecture.png">
+
+  <!-- Academic / Google Scholar -->
+  <meta name="citation_title" content="ABRA: Agent Benchmark for Radiology Applications">
+  <meta name="citation_author" content="Maksudov, Bulat">
+  <meta name="citation_author" content="Kurenkov, Vladislav">
+  <meta name="citation_author" content="Curran, Kathleen M.">
+  <meta name="citation_author" content="Mileo, Alessandra">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="NeurIPS 2026 Datasets and Benchmarks Track">
+  <meta name="citation_pdf_url" content="static/pdfs/abra_paper.pdf">
+
+  <meta name="theme-color" content="#2563eb">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>ABRA: Agent Benchmark for Radiology Applications</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/abra.css">
+
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "ABRA: Agent Benchmark for Radiology Applications",
+    "description": "A radiology-agent benchmark in which the agent operates an OHIF viewer and Orthanc DICOM server through 21 function-calling tools, with 655 programmatically generated tasks scored along Planning, Execution, and Outcome.",
+    "author": [
+      {"@type": "Person", "name": "Bulat Maksudov", "affiliation": {"@type": "Organization", "name": "Dublin City University"}},
+      {"@type": "Person", "name": "Vladislav Kurenkov"},
+      {"@type": "Person", "name": "Kathleen M. Curran", "affiliation": {"@type": "Organization", "name": "University College Dublin"}},
+      {"@type": "Person", "name": "Alessandra Mileo", "affiliation": {"@type": "Organization", "name": "Dublin City University"}}
+    ],
+    "datePublished": "2026",
+    "publisher": {"@type": "Organization", "name": "NeurIPS 2026 Datasets and Benchmarks Track"},
+    "keywords": ["agent benchmark", "radiology", "DICOM", "OHIF", "medical imaging", "function calling", "LLM agents"],
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">ABRA: Agent Benchmark for Radiology Applications</h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Bulat Maksudov<sup>1</sup>,</span>
+              <span class="author-block">Vladislav Kurenkov<sup>2</sup>,</span>
+              <span class="author-block">Kathleen M. Curran<sup>3</sup>,</span>
+              <span class="author-block">Alessandra Mileo<sup>1</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-authors affiliations">
+              <span><sup>1</sup>Dublin City University</span> &nbsp;
+              <span><sup>2</sup>Dunno Lab</span> &nbsp;
+              <span><sup>3</sup>University College Dublin</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/pdfs/abra_paper.pdf" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://anonymous.4open.science/r/ABRA-F815" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code (anonymized)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="#bibtex" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-quote-right"></i></span>
+                    <span>BibTeX</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser image: architecture -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <figure class="image">
+          <img src="static/images/architecture.png" alt="ABRA architecture overview" loading="lazy"/>
+        </figure>
+        <h2 class="subtitle has-text-centered">
+          The ABRA controller draws tasks from the suite, drives an LLM agent through a multi-turn loop, and dispatches its tool calls to a headless OHIF viewer and a DICOM preprocessor, both backed by an Orthanc PACS populated with three TCIA datasets. After the agent terminates, the controller scores the trajectory along <strong>Planning</strong>, <strong>Execution</strong>, and <strong>Outcome</strong>.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Existing medical-agent benchmarks deliver imaging as pre-selected samples, never as an environment the agent must navigate. We introduce <strong>ABRA</strong>, a radiology-agent benchmark in which the agent operates an OHIF viewer and an Orthanc DICOM server through twenty-one function-calling tools that span slice navigation, windowing, series selection, pixel-coordinate annotation, and structured reporting.
+            </p>
+            <p>
+              ABRA contains <strong>655 programmatically generated tasks</strong> across three difficulty tiers and eight types (viewer control, metadata QA, vision probe, annotation, longitudinal comparison, BI-RADS reporting, and oracle variants of annotation and BI-RADS reporting), drawn from LIDC-IDRI, Duke Breast Cancer MRI, and NLST New-Lesion LongCT. Each episode is scored along Planning, Execution, and Outcome by task-type-specific automatic scorers.
+            </p>
+            <p>
+              Ten current models, five closed-weight and five open-weight, reach at least <strong>89% Execution</strong> on real annotation but only <strong>0&ndash;25% Outcome</strong>; on the paired <em>oracle</em> variant where a simulated detector supplies the finding, Outcome on the same task reaches <strong>69&ndash;100%</strong> across the models evaluated, localising the bottleneck to <em>perception</em> rather than tool orchestration.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key findings highlight -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">TL;DR</h2>
+      <div class="columns is-centered">
+        <div class="column is-three-quarters">
+          <div class="content has-text-justified">
+            <ul>
+              <li><strong>First medical agent benchmark inside a live clinical viewer.</strong> Most prior medical agent benchmarks run on chat or EHR sandboxes; the multimodal ones deliver imaging as static samples. ABRA puts the agent inside an OHIF viewer over an Orthanc PACS, with DICOM pixels and viewport state reachable only through tool calls.</li>
+              <li><strong>21 function-calling tools across observation and action.</strong> Four observation categories (metadata, viewer screenshot, DICOM pixel through six preprocessors, oracle predictions) and three action classes (navigation, segmentation, reporting). Pixel coordinates round-trip between observations and segmentation actions in a shared frame.</li>
+              <li><strong>Paired oracle / real variants on the same task.</strong> The oracle variant exposes a simulated detector and no pixel-access tools; the real variant exposes pixel-access tools and no detector. The within-pair gap isolates visual perception from tool orchestration.</li>
+              <li><strong>Vision is the dominant bottleneck.</strong> Across ten frontier and open-weight models, Execution sits near ceiling on every tier (function calls succeed, arguments are correctly typed) while Outcome on real annotation drops to 0&ndash;25%. The same models recover to 69&ndash;100% Outcome on the oracle variant of the same task.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Environment -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Environment</h2>
+      <div class="columns is-vcentered">
+        <div class="column is-half">
+          <figure class="image">
+            <img src="static/images/chat_mock.jpg" alt="ABRA chat panel inside the OHIF viewer" loading="lazy"/>
+          </figure>
+        </div>
+        <div class="column">
+          <div class="content has-text-justified">
+            <p>
+              ABRA is built around the <a href="https://ohif.org/" target="_blank">OHIF</a> open-source radiological viewer paired with an <a href="https://www.orthanc-server.com/" target="_blank">Orthanc</a> DICOM server, mirroring the PACS-plus-viewer stack used in clinical workstations. A dedicated OHIF extension surfaces viewport geometry, active series, and placed annotations, while an out-of-process preprocessor converts raw DICOM pixels into model-appropriate PNGs whose coordinate frame is shared with the segmentation actions.
+            </p>
+            <p>
+              ABRA supports two interaction modes over the same tool set: an in-browser chat panel (shown on the left) for user-driven sessions, and a headless OHIF instance driven by Puppeteer for automated benchmark runs. Episodes execute in isolated browser contexts, so they reset cleanly and parallelise trivially across an Orthanc PACS shared between workers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video demo (placeholder) -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Video Demo</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+
+          <!-- Replace this placeholder block with one of the two snippets below
+               once a recording is ready.
+
+               YouTube embed:
+                 <div class="publication-video">
+                   <iframe src="https://www.youtube.com/embed/<VIDEO_ID>"
+                           title="ABRA video demo"
+                           frameborder="0"
+                           allow="autoplay; encrypted-media"
+                           allowfullscreen></iframe>
+                 </div>
+
+               Self-hosted MP4 (drop the file at static/videos/abra_demo.mp4):
+                 <video class="publication-video" controls muted loop preload="metadata"
+                        poster="static/images/architecture.png">
+                   <source src="static/videos/abra_demo.mp4" type="video/mp4">
+                 </video>
+          -->
+          <div class="publication-video video-placeholder" role="img"
+               aria-label="Video demo placeholder">
+            <div class="placeholder-inner">
+              <i class="fas fa-play-circle placeholder-icon" aria-hidden="true"></i>
+              <p class="placeholder-text">Video demo coming soon</p>
+              <p class="placeholder-sub">A walkthrough of an agent driving the OHIF viewer through an ABRA episode.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End video demo placeholder -->
+
+  <!-- Tasks -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">655 Tasks across 8 Types and 3 Difficulty Tiers</h2>
+      <div class="columns is-vcentered">
+        <div class="column">
+          <div class="content has-text-justified">
+            <p>
+              Tasks are synthesised programmatically from three public TCIA cohorts:
+            </p>
+            <ul>
+              <li><strong>LIDC-IDRI</strong> &mdash; thoracic CT with per-nodule contours from up to four radiologists, aggregated by 50% volumetric majority vote. Anchors the annotation tier.</li>
+              <li><strong>Duke Breast Cancer MRI</strong> &mdash; multi-sequence DCE breast MRI with BI-RADS labels. Drives structured reporting.</li>
+              <li><strong>NLST New-Lesion LongCT</strong> &mdash; baseline-and-follow-up CT pairs with new-lesion annotations. Drives the longitudinal comparison tasks.</li>
+            </ul>
+            <p>
+              Each generated task ships a natural-language instruction, an initial viewer state, a ground-truth target, and a reference tool-call trajectory used by the Planning scorer.
+            </p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <figure class="image">
+            <img src="static/images/task_distribution.png" alt="Task distribution by difficulty and type" loading="lazy"/>
+            <figcaption class="has-text-centered is-size-7">Task distribution by difficulty tier and type.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="content task-types-table">
+        <h3 class="title is-5">Task types</h3>
+        <table class="table is-fullwidth is-striped is-hoverable">
+          <thead>
+            <tr><th>Tier</th><th>Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="3"><strong>Easy</strong></td><td><code>viewer_control</code></td><td>Viewport manipulation: slice navigation, window/level presets, series switching.</td></tr>
+            <tr><td><code>metadata_qa</code></td><td>DICOM tag retrieval at study, series, and instance granularity.</td></tr>
+            <tr><td><code>vision_probe</code></td><td>Modality recognition and preprocessor selection from a single rendered image.</td></tr>
+            <tr><td rowspan="3"><strong>Medium</strong></td><td><code>annotation</code></td><td>Perceive pathology on a CT series and contour it with a segmentation primitive.</td></tr>
+            <tr><td><code>oracle_annotation</code></td><td>Same target as <code>annotation</code>, with oracle detector findings supplied.</td></tr>
+            <tr><td><code>oracle_birads_report</code></td><td>Compose a BI-RADS report from oracle breast-MRI findings.</td></tr>
+            <tr><td rowspan="2"><strong>Hard</strong></td><td><code>longitudinal</code></td><td>Compare a baseline-and-follow-up CT pair and submit each new lesion with its slice and pixel location.</td></tr>
+            <tr><td><code>birads_report</code></td><td>Read a full multi-sequence breast MRI and produce an end-to-end BI-RADS report.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Results</h2>
+
+      <h3 class="title is-5">Per-tier scores across ten models</h3>
+      <p class="is-size-6 has-text-justified">
+        Per-tier scores are Planning (P), Execution (E), Outcome (O), and composite average <em>S</em> = 0.20&middot;P + 0.30&middot;E + 0.50&middot;O. The final column is the <em>n</em>-weighted average across all eight task types. <strong>Bold</strong> marks per-column maxima.
+      </p>
+
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable is-narrow results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Model</th>
+              <th colspan="4" class="has-text-centered">Easy</th>
+              <th colspan="4" class="has-text-centered">Medium</th>
+              <th colspan="4" class="has-text-centered">Hard</th>
+              <th rowspan="2" class="has-text-centered">Overall</th>
+            </tr>
+            <tr>
+              <th>P</th><th>E</th><th>O</th><th>Avg</th>
+              <th>P</th><th>E</th><th>O</th><th>Avg</th>
+              <th>P</th><th>E</th><th>O</th><th>Avg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Claude Sonnet 4.6</td>
+              <td>0.93</td><td>0.99</td><td>0.86</td><td>0.91</td>
+              <td>0.78</td><td><strong>0.99</strong></td><td>0.41</td><td>0.66</td>
+              <td>0.20</td><td>0.98</td><td><strong>0.21</strong></td><td>0.44</td>
+              <td><strong>0.70</strong></td></tr>
+            <tr><td>GPT-5.4</td>
+              <td>0.83</td><td>0.99</td><td>0.88</td><td>0.91</td>
+              <td><strong>0.82</strong></td><td><strong>0.99</strong></td><td>0.42</td><td><strong>0.67</strong></td>
+              <td>0.31</td><td>0.95</td><td>0.11</td><td>0.40</td>
+              <td><strong>0.70</strong></td></tr>
+            <tr><td>Qwen 3.5</td>
+              <td>0.88</td><td><strong>1.00</strong></td><td><strong>0.91</strong></td><td><strong>0.93</strong></td>
+              <td>0.76</td><td>0.93</td><td>0.39</td><td>0.63</td>
+              <td>0.49</td><td><strong>0.99</strong></td><td>0.11</td><td>0.45</td>
+              <td><strong>0.70</strong></td></tr>
+            <tr><td>GPT-5.4-nano</td>
+              <td><strong>0.95</strong></td><td>0.99</td><td>0.87</td><td>0.92</td>
+              <td>0.71</td><td><strong>0.99</strong></td><td>0.39</td><td>0.64</td>
+              <td><strong>0.56</strong></td><td>0.97</td><td>0.04</td><td>0.42</td>
+              <td>0.69</td></tr>
+            <tr><td>Gemma 4</td>
+              <td>0.88</td><td><strong>1.00</strong></td><td>0.87</td><td>0.91</td>
+              <td>0.75</td><td>0.93</td><td>0.43</td><td>0.64</td>
+              <td>0.38</td><td>0.93</td><td>0.02</td><td>0.37</td>
+              <td>0.68</td></tr>
+            <tr><td>Mistral Large 3</td>
+              <td>0.90</td><td>0.98</td><td>0.69</td><td>0.82</td>
+              <td>0.80</td><td><strong>0.99</strong></td><td>0.38</td><td>0.65</td>
+              <td>0.51</td><td>0.90</td><td>0.15</td><td>0.45</td>
+              <td>0.67</td></tr>
+            <tr><td>Gemini 3 Flash</td>
+              <td>0.61</td><td>0.93</td><td>0.88</td><td>0.84</td>
+              <td>0.58</td><td>0.95</td><td><strong>0.53</strong></td><td><strong>0.67</strong></td>
+              <td>0.37</td><td>0.86</td><td>0.06</td><td>0.36</td>
+              <td>0.66</td></tr>
+            <tr><td>Ministral 3 (14B)</td>
+              <td>0.92</td><td>0.99</td><td>0.68</td><td>0.82</td>
+              <td>0.78</td><td>0.98</td><td>0.38</td><td>0.64</td>
+              <td>0.43</td><td>0.87</td><td>0.12</td><td>0.41</td>
+              <td>0.66</td></tr>
+            <tr><td>Gemini 3 Pro</td>
+              <td>0.62</td><td>0.94</td><td>0.79</td><td>0.80</td>
+              <td>0.62</td><td>0.98</td><td>0.35</td><td>0.59</td>
+              <td>0.33</td><td>0.96</td><td>0.16</td><td>0.44</td>
+              <td>0.64</td></tr>
+            <tr><td>Kimi K2.5</td>
+              <td>0.73</td><td>0.89</td><td>0.75</td><td>0.79</td>
+              <td>0.68</td><td>0.98</td><td>0.37</td><td>0.61</td>
+              <td>0.44</td><td>0.98</td><td>0.14</td><td><strong>0.46</strong></td>
+              <td>0.64</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="title is-5" style="margin-top: 2.5rem;">Oracle vs Real on paired task variants</h3>
+      <p class="is-size-6 has-text-justified">
+        Outcome and overall Avg on the four paired (oracle vs <em>real</em>) task variants: annotation and BI-RADS reporting. The collapse from oracle to real on annotation, while BI-RADS holds up better, is consistent with perception (not tool orchestration) being the binding constraint.
+      </p>
+
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable is-narrow results-table">
+          <thead>
+            <tr>
+              <th rowspan="3">Model</th>
+              <th colspan="4" class="has-text-centered">Oracle</th>
+              <th colspan="4" class="has-text-centered">Real</th>
+            </tr>
+            <tr>
+              <th colspan="2" class="has-text-centered">Annotation</th>
+              <th colspan="2" class="has-text-centered">BI-RADS</th>
+              <th colspan="2" class="has-text-centered">Annotation</th>
+              <th colspan="2" class="has-text-centered">BI-RADS</th>
+            </tr>
+            <tr>
+              <th>Out</th><th>Avg</th>
+              <th>Out</th><th>Avg</th>
+              <th>Out</th><th>Avg</th>
+              <th>Out</th><th>Avg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Claude Sonnet 4.6</td>
+              <td><strong>1.00</strong></td><td><strong>0.98</strong></td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.02</td><td>0.45</td>
+              <td><strong>0.64</strong></td><td><strong>0.73</strong></td></tr>
+            <tr><td>GPT-5.4</td>
+              <td>0.98</td><td>0.97</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.03</td><td>0.47</td>
+              <td>0.32</td><td>0.53</td></tr>
+            <tr><td>Mistral Large 3</td>
+              <td>0.91</td><td>0.93</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.00</td><td>0.45</td>
+              <td>0.47</td><td>0.60</td></tr>
+            <tr><td>Gemini 3 Flash</td>
+              <td>0.90</td><td>0.82</td>
+              <td><strong>1.00</strong></td><td>0.93</td>
+              <td><strong>0.25</strong></td><td><strong>0.53</strong></td>
+              <td>0.18</td><td>0.41</td></tr>
+            <tr><td>Qwen 3.5</td>
+              <td>0.95</td><td>0.94</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.00</td><td>0.42</td>
+              <td>0.35</td><td>0.59</td></tr>
+            <tr><td>Kimi K2.5</td>
+              <td>0.84</td><td>0.80</td>
+              <td>0.94</td><td>0.93</td>
+              <td>0.02</td><td>0.45</td>
+              <td>0.42</td><td>0.62</td></tr>
+            <tr><td>Ministral 3 (14B)</td>
+              <td>0.90</td><td>0.91</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.00</td><td>0.45</td>
+              <td>0.35</td><td>0.46</td></tr>
+            <tr><td>GPT-5.4-nano</td>
+              <td>0.96</td><td>0.94</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.00</td><td>0.42</td>
+              <td>0.12</td><td>0.45</td></tr>
+            <tr><td>Gemini 3 Pro</td>
+              <td>0.69</td><td>0.73</td>
+              <td>0.58</td><td>0.71</td>
+              <td>0.16</td><td>0.51</td>
+              <td>0.50</td><td>0.65</td></tr>
+            <tr><td>Gemma 4</td>
+              <td>0.88</td><td>0.87</td>
+              <td><strong>1.00</strong></td><td><strong>0.96</strong></td>
+              <td>0.08</td><td>0.46</td>
+              <td>0.06</td><td>0.33</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section class="section" id="bibtex">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{maksudov2026abra,
+  title     = {ABRA: Agent Benchmark for Radiology Applications},
+  author    = {Maksudov, Bulat and Kurenkov, Vladislav and Curran, Kathleen M. and Mileo, Alessandra},
+  booktitle = {Advances in Neural Information Processing Systems (Datasets and Benchmarks Track)},
+  year      = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>,
+              adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              The website source is licensed under
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

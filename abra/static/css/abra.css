@@ -1,0 +1,101 @@
+/* ABRA-specific overrides on top of the academic-project-page template. */
+
+.publication-authors.affiliations {
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-secondary);
+}
+
+.publication-authors.venue {
+  margin-top: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Results tables: tabular numerals and tighter cells. */
+.results-table {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+}
+
+.results-table th,
+.results-table td {
+  text-align: center;
+  padding: 0.45rem 0.55rem !important;
+  vertical-align: middle !important;
+  white-space: nowrap;
+}
+
+.results-table thead th {
+  background-color: var(--background-accent);
+  border-bottom-width: 2px !important;
+  font-weight: 700;
+}
+
+.results-table tbody td:first-child,
+.results-table thead th:first-child {
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Make the architecture teaser figure breathe a bit. */
+.hero.teaser figure.image img {
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Task types reference table inherits Bulma .table styles; keep code spans
+   readable inside the dense rows. */
+.task-types-table code {
+  background: var(--background-accent);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+/* Video demo placeholder. Sits inside .publication-video so it inherits the
+   16:9 aspect-ratio container; we just paint the inner area. */
+.video-placeholder {
+  background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.video-placeholder .placeholder-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.video-placeholder .placeholder-icon {
+  font-size: 4rem;
+  opacity: 0.85;
+  margin-bottom: 0.75rem;
+}
+
+.video-placeholder .placeholder-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.video-placeholder .placeholder-sub {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: 0.4rem;
+  max-width: 36rem;
+}
+
+/* Tighter author block on small screens. */
+@media (max-width: 600px) {
+  .publication-authors .author-block {
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+}
