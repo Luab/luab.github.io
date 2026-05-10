@@ -1,5 +1,15 @@
 /* ABRA-specific overrides on top of the academic-project-page template. */
 
+/* Acronym expansion: the leading letter of each rotating word is highlighted
+   so the A-B-R-A mapping stays visually obvious as words swap on refresh. */
+.acronym-expansion .word {
+  white-space: nowrap;
+}
+.acronym-expansion .initial {
+  color: var(--primary-color);
+  font-weight: 800;
+}
+
 .publication-authors.affiliations {
   margin-top: 0.4rem;
   margin-bottom: 0.6rem;
