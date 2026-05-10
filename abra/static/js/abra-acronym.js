@@ -28,6 +28,23 @@
     return '<span class="initial">' + word[0] + '</span>' + word.slice(1);
   }
 
+  // Measure the widest variant for a slot and lock the slot's min-width to
+  // that, so the capital letter at the left of every variant stays pinned in
+  // place instead of dancing horizontally as the word changes.
+  function lockSlotWidth(slot, key) {
+    const choices = variants[key].concat(canonical[key]);
+    const original = slot.innerHTML;
+    let max = 0;
+    for (const w of choices) {
+      slot.innerHTML = render(w);
+      const px = slot.getBoundingClientRect().width;
+      if (px > max) max = px;
+    }
+    slot.innerHTML = original;
+    slot.style.minWidth = Math.ceil(max) + 'px';
+    slot.style.textAlign = 'left';
+  }
+
   function spinSlot(slot, key, totalMs) {
     const choices = variants[key];
     slot.classList.add('is-spinning');
@@ -54,6 +71,9 @@
   function start() {
     const slots = document.querySelectorAll('.acronym-expansion .word');
     if (slots.length !== 4) return;
+    // Lock widths first (sequentially, before any animation starts) so the
+    // line of text never reflows during the spin.
+    slots.forEach((slot, i) => lockSlotWidth(slot, keys[i]));
     slots.forEach((slot, i) => spinSlot(slot, keys[i], spinDurations[i]));
   }
 
