@@ -18,11 +18,11 @@
   };
 
   const keys = ['A1', 'B', 'R', 'A2'];
-  // Per-slot total spin duration in ms; staggered so the line settles
-  // left-to-right as the eye reads it. Tick rate is slow enough that each
-  // word stays visible long enough to read.
-  const spinDurations = [1300, 1800, 2400, 3100];
-  const tickMs = 220; // how often each slot swaps text while spinning
+  // All slots spin at the same pace and land together. Tick rate is slow
+  // enough that each variant is comfortably readable.
+  const totalMs = 3000;
+  const spinDurations = [totalMs, totalMs, totalMs, totalMs];
+  const tickMs = 500; // how often each slot swaps text while spinning
 
   function render(word) {
     return '<span class="initial">' + word[0] + '</span>' + word.slice(1);
