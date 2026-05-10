@@ -1,6 +1,8 @@
-// Resolve the ABRA acronym to a slightly different expansion on each load.
-// The visible H1 changes; meta tags, BibTeX, and the abstract stay canonical
-// so search engines and citation managers see the stable title.
+// Slot-machine animation: each word in "Agent Benchmark for Radiology
+// Applications" cycles rapidly through variants on page load, then lands on
+// the canonical word. Slots are staggered so they settle left-to-right.
+// Meta tags, BibTeX, and the abstract stay canonical so SEO and citation
+// extraction are unaffected.
 (function () {
   const variants = {
     A1: ['Agent', 'Agentic', 'Autonomous', 'Automated', 'Adaptive', 'Auditable', 'Anchored'],
@@ -8,27 +10,55 @@
     R:  ['Radiology', 'Radiographic', 'Radiologists', 'Radiographers'],
     A2: ['Applications', 'Agents', 'Assessment', 'Analysis', 'Assistants', 'Activities'],
   };
+  const canonical = {
+    A1: 'Agent',
+    B:  'Benchmark',
+    R:  'Radiology',
+    A2: 'Applications',
+  };
 
-  function pick(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
+  const keys = ['A1', 'B', 'R', 'A2'];
+  // Per-slot total spin duration in ms; staggered so the line settles
+  // left-to-right as the eye reads it.
+  const spinDurations = [650, 900, 1200, 1550];
+  const tickMs = 70; // how often each slot swaps text while spinning
 
   function render(word) {
     return '<span class="initial">' + word[0] + '</span>' + word.slice(1);
   }
 
-  function resolve() {
+  function spinSlot(slot, key, totalMs) {
+    const choices = variants[key];
+    slot.classList.add('is-spinning');
+
+    let last = slot.textContent.trim();
+    const interval = setInterval(() => {
+      // Avoid showing the same word twice in a row to amplify the rolling feel.
+      let next;
+      do {
+        next = choices[Math.floor(Math.random() * choices.length)];
+      } while (next === last && choices.length > 1);
+      last = next;
+      slot.innerHTML = render(next);
+    }, tickMs);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      slot.innerHTML = render(canonical[key]);
+      slot.classList.remove('is-spinning');
+      slot.classList.add('has-landed');
+    }, totalMs);
+  }
+
+  function start() {
     const slots = document.querySelectorAll('.acronym-expansion .word');
     if (slots.length !== 4) return;
-    const keys = ['A1', 'B', 'R', 'A2'];
-    slots.forEach((slot, i) => {
-      slot.innerHTML = render(pick(variants[keys[i]]));
-    });
+    slots.forEach((slot, i) => spinSlot(slot, keys[i], spinDurations[i]));
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', resolve);
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    resolve();
+    start();
   }
 })();

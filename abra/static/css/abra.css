@@ -1,13 +1,47 @@
 /* ABRA-specific overrides on top of the academic-project-page template. */
 
-/* Acronym expansion: the leading letter of each rotating word is highlighted
-   so the A-B-R-A mapping stays visually obvious as words swap on refresh. */
+/* Acronym expansion. Each word .word slot slot-machines through variants on
+   page load and settles on the canonical term. The leading letter of each
+   word is highlighted so the A-B-R-A mapping stays obvious. */
 .acronym-expansion .word {
+  display: inline-block;
   white-space: nowrap;
+  transition: filter 220ms ease-out, transform 220ms ease-out, color 220ms ease-out;
 }
 .acronym-expansion .initial {
   color: var(--primary-color);
   font-weight: 800;
+}
+
+/* Spinning state: subtle blur + shrink to suggest motion without
+   destabilising the line of text. */
+.acronym-expansion .word.is-spinning {
+  filter: blur(1.4px);
+  transform: translateY(-1px) scale(0.985);
+  color: var(--text-secondary);
+}
+
+/* Landing pulse: a quick scale flash to mark the moment of stop. */
+@keyframes acronym-land {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.acronym-expansion .word.has-landed {
+  animation: acronym-land 260ms ease-out;
+}
+
+/* Respect users who prefer reduced motion: skip the spin, just show the
+   canonical line. The JS still runs but the visual flicker is suppressed. */
+@media (prefers-reduced-motion: reduce) {
+  .acronym-expansion .word,
+  .acronym-expansion .word.is-spinning,
+  .acronym-expansion .word.has-landed {
+    filter: none !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 .publication-authors.affiliations {
