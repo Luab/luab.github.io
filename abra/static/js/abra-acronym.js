@@ -5,10 +5,10 @@
 // extraction are unaffected.
 (function () {
   const variants = {
-    A1: ['Agent', 'Agentic', 'Autonomous', 'Automated', 'Adaptive', 'Auditable', 'Anchored'],
-    B:  ['Benchmark', 'Battery', 'Baseline', 'Benchsuite'],
-    R:  ['Radiology', 'Radiographic', 'Radiologists', 'Radiographers'],
-    A2: ['Applications', 'Agents', 'Assessment', 'Analysis', 'Assistants', 'Activities'],
+    A1: ['Agent', 'Agile', 'Aided', 'Astute', 'Active', 'Applied', 'Agentic'],
+    B:  ['Battery', 'Benchmark', 'Baseline'],
+    R:  ['Radiology', 'Radiation', 'Radiologic'],
+    A2: ['Assessments', 'Assistants', 'Algorithms', 'Annotations', 'Activities', 'Applications', 'Acquisition'],
   };
   const canonical = {
     A1: 'Agent',

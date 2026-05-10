@@ -1,24 +1,30 @@
 /* ABRA-specific overrides on top of the academic-project-page template. */
 
-/* dunnolab.ai hat marker: inline icon used as the affiliation footnote next
-   to Vladislav's name and on the affiliation line. */
-.dunnolab-mark {
+/* Affiliation marker: emoji or icon used in place of a numeric footnote
+   next to each author's name and on the affiliation line. */
+.affiliation-mark {
   display: inline-block;
   margin-left: 0.15em;
   vertical-align: super;
   line-height: 0;
+  font-size: 0.7em;
+  text-decoration: none;
 }
-.dunnolab-mark img {
+.affiliation-mark img {
   height: 1em;
   width: auto;
   vertical-align: middle;
 }
-.publication-authors.affiliations .dunnolab-mark {
+
+/* On the affiliations line the markers sit at the start of each label, full
+   size, baseline-aligned. */
+.publication-authors.affiliations .affiliation-mark {
   vertical-align: middle;
-  margin-right: 0.25em;
+  font-size: 1em;
+  margin-right: 0.3em;
   margin-left: 0;
 }
-.publication-authors.affiliations .dunnolab-mark img {
+.publication-authors.affiliations .affiliation-mark img {
   height: 1.2em;
 }
 
