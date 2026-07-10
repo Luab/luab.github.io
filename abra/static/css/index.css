@@ -233,7 +233,8 @@ body {
     box-shadow: var(--shadow-xl);
 }
 
-.publication-video iframe {
+.publication-video iframe,
+.publication-video video {
     position: absolute;
     top: 0;
     left: 0;

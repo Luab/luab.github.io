@@ -252,45 +252,29 @@
     </div>
   </section>
 
-  <!-- Video demo (placeholder) -->
+  <!-- Video demo -->
   <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Video Demo</h2>
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
 
-          <!-- Replace this placeholder block with one of the two snippets below
-               once a recording is ready.
-
-               YouTube embed:
-                 <div class="publication-video">
-                   <iframe src="https://www.youtube.com/embed/<VIDEO_ID>"
-                           title="ABRA video demo"
-                           frameborder="0"
-                           allow="autoplay; encrypted-media"
-                           allowfullscreen></iframe>
-                 </div>
-
-               Self-hosted MP4 (drop the file at static/videos/abra_demo.mp4):
-                 <video class="publication-video" controls muted loop preload="metadata"
-                        poster="static/images/architecture.png">
-                   <source src="static/videos/abra_demo.mp4" type="video/mp4">
-                 </video>
-          -->
-          <div class="publication-video video-placeholder" role="img"
-               aria-label="Video demo placeholder">
-            <div class="placeholder-inner">
-              <i class="fas fa-play-circle placeholder-icon" aria-hidden="true"></i>
-              <p class="placeholder-text">Video demo coming soon</p>
-              <p class="placeholder-sub">A walkthrough of an agent driving the OHIF viewer through an ABRA episode.</p>
-            </div>
+          <div class="publication-video">
+            <video controls muted loop playsinline preload="metadata"
+                   poster="static/videos/radagent_demo_chat_qwen_poster.jpg">
+              <source src="static/videos/radagent_demo_chat_qwen.webm" type="video/webm">
+              <source src="static/videos/radagent_demo_chat_qwen.mp4" type="video/mp4">
+            </video>
           </div>
+          <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem;">
+            An agent driving the OHIF viewer through the in-browser chat panel: it applies a lung window, navigates to the target slice, reads the DICOM pixels, and places a circle segmentation over a pulmonary nodule in a LIDC-IDRI chest CT before submitting its answer.
+          </h2>
 
         </div>
       </div>
     </div>
   </section>
-  <!-- End video demo placeholder -->
+  <!-- End video demo -->
 
   <!-- Tasks -->
   <section class="section">
