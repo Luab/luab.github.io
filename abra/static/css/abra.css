@@ -124,6 +124,39 @@
   font-size: 0.92em;
 }
 
+/* MLG toggle above the video demo. */
+.video-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.mlg-toggle {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mlg-toggle:hover {
+  border-color: #94a3b8;
+  color: #334155;
+}
+
+.mlg-toggle[aria-pressed="true"] {
+  background: linear-gradient(90deg, #ff004c, #ff9900, #ffee00, #00d26a, #00a3ff, #9d00ff);
+  color: #ffffff;
+  border-color: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
 /* Tighter author block on small screens. */
 @media (max-width: 600px) {
   .publication-authors .author-block {

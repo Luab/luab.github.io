@@ -259,8 +259,12 @@
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
 
+          <div class="video-toggle-row">
+            <button type="button" class="mlg-toggle" id="mlg-toggle" aria-pressed="false"
+                    title="Switch to the MLG edition">MLG</button>
+          </div>
           <div class="publication-video">
-            <video controls muted loop playsinline preload="metadata"
+            <video id="demo-video" controls muted loop playsinline preload="metadata"
                    poster="static/videos/radagent_demo_chat_qwen_poster.jpg">
               <source src="static/videos/radagent_demo_chat_qwen.webm" type="video/webm">
               <source src="static/videos/radagent_demo_chat_qwen.mp4" type="video/mp4">
@@ -273,6 +277,39 @@
         </div>
       </div>
     </div>
+    <script>
+      (function () {
+        var btn = document.getElementById('mlg-toggle');
+        var video = document.getElementById('demo-video');
+        var variants = {
+          normal: {
+            webm: 'static/videos/radagent_demo_chat_qwen.webm',
+            mp4: 'static/videos/radagent_demo_chat_qwen.mp4',
+            poster: 'static/videos/radagent_demo_chat_qwen_poster.jpg'
+          },
+          mlg: {
+            webm: 'static/videos/radagent_demo_mlg.webm',
+            mp4: 'static/videos/radagent_demo_mlg.mp4',
+            poster: 'static/videos/radagent_demo_mlg_poster.jpg'
+          }
+        };
+        btn.addEventListener('click', function () {
+          var mlg = btn.getAttribute('aria-pressed') !== 'true';
+          btn.setAttribute('aria-pressed', String(mlg));
+          var v = mlg ? variants.mlg : variants.normal;
+          video.poster = v.poster;
+          video.querySelector('source[type="video/webm"]').src = v.webm;
+          video.querySelector('source[type="video/mp4"]').src = v.mp4;
+          video.load();
+          if (mlg) {
+            video.muted = false;
+            video.play();
+          } else {
+            video.muted = true;
+          }
+        });
+      })();
+    </script>
   </section>
   <!-- End video demo -->
 
